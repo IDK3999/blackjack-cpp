@@ -74,9 +74,9 @@ int main(){
             string answer;
             cin >> answer;
             if(answer == "yes"){
-                system("./save_stats.sh");
+                system("game_scripts/save_stats.sh");
             }
-            system("./reset.sh");
+            system("game_scripts/reset.sh");
             return 0;
         }
     }
