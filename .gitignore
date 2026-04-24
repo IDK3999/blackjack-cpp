@@ -1,4 +1,5 @@
 main
 stats.txt
 .hide_splash.txt
-high_score.txt
+highscore.txt
+filenames.txt
