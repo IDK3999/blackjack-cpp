@@ -10,5 +10,7 @@ if [ ! -f ".hide_splash.txt" ]; then
 if [ ! -f main ]; then
     g++ main.cpp -o main
     fi
-
+if [ ! -f "filenames.txt" ]; then
+    touch filenames.txt
+    fi
 ./main

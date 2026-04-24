@@ -68,6 +68,17 @@ int main(){
                 output << gamesPlayed << endl;
                 output.close();
             }
+        if(balance <= 0){
+            cout << "You have no more money to bet. Game over!" << endl;
+            cout << "Do you want to save your stats to another file? (Type \"yes\" or \"no\")" << endl;
+            string answer;
+            cin >> answer;
+            if(answer == "yes"){
+                system("./save_stats.sh");
+            }
+            system("./reset.sh");
+            return 0;
+        }
     }
     return 0;
 }
