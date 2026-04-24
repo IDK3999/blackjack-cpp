@@ -14,5 +14,6 @@ is created on first run.
 
 By running "reset.sh", you reset your stats, settings and the main executable.
 
-The maximum money you can have is (2^63)-1, or the "long long" limit. Anything after that breaks the game. The maximum games 
-you can play is the int limit.
+The maximum money you can have is (2^63)-1, or the "long long" limit. Anything after that breaks the game. The maximum games you can play is the int limit.
+
+If you want to modify the code for whatever reason, first delete ./main (the executable).
