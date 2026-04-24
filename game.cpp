@@ -39,7 +39,6 @@ void initGame(){
     cout << "The dealer will hit until they have at least 17 points." << endl;
     cout << "If you go over 21, you lose. If the dealer goes over 21, you win. If you have a higher hand than the dealer without going over 21, you win. If you have the same hand as the dealer, it's a tie." << endl;
     cout << "Good luck!" << endl;
-    cout << "Type \"hide\" to mute the messages." << endl;
     
 }
 
@@ -57,18 +56,13 @@ int bet_period(long long &balance){
 
 int calculateHand(const vector<int> &hand){
     int total = 0;
-    int aces = 0;
-    for(int card : hand){
-        int value = card % 13;
-        if(value >= 10) value = 10; // Face cards are worth 10
-        if(value == 0) value = 11; // Aces are worth 11 initially
-        total += value;
-        if(value == 11) aces++;
-    }
-    // Adjust for aces if total is over 21
-    while(total > 21 && aces > 0){
-        total -= 10; // Count ace as 1 instead of 11
-        aces--;
+    for(int i = 0; i < hand.size(); i++){
+        if(hand[i] % 13 == 0){
+            if(total + 11 > 21) total += 1;
+            else total += 11;
+        }
+        else if(hand[i] % 13 >= 10) total += 10;
+        else total += hand[i] % 13 + 1;
     }
     return total;
 }
