@@ -5,7 +5,7 @@ if [ ! -f "stats.txt" ]; then
     fi
 if [ ! -f ".hide_splash.txt" ]; then
     touch .hide_splash.txt
-    echo "0" > .hide_splash.txt
+    echo "0 0" > .hide_splash.txt
     fi
 if [ ! -f main ]; then
     g++ main.cpp -o main
