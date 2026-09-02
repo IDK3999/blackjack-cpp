@@ -9,6 +9,7 @@
 using namespace std;
 
 bool deck[52] = {false}; // To keep track of which cards have been dealt
+bool assistEnabled = false; // Whether odds suggestions are shown (persisted in .hide_splash.txt)
 
 string human_readable_card(int card){
     string suits[] = {"Hearts", "Diamonds", "Clubs", "Spades"};
@@ -16,12 +17,26 @@ string human_readable_card(int card){
     return ranks[card % 13] + string(" of ") + suits[card / 13];
 }
 
+void toggleAssist(){
+    ifstream input(".hide_splash.txt");
+    int hide_splash = 0;
+    bool assist = false;
+    input >> hide_splash >> assist;
+    input.close();
+    assist = !assist;
+    ofstream output(".hide_splash.txt");
+    output << hide_splash << " " << assist;
+    output.close();
+    assistEnabled = assist;
+    cout << "Assist " << (assist ? "enabled" : "disabled") << "." << endl;
+}
+
 void initGame(){
 
     cout << "Welcome to Blackjack!" << endl;
     ifstream input(".hide_splash.txt");
-    int hide_splash;
-    input >> hide_splash;
+    int hide_splash = 0;
+    input >> hide_splash >> assistEnabled;
     input.close();
     if(hide_splash) return;
     cout << "Would you like to read the rules? (Type \"yes\" or \"no\")" << endl;
@@ -29,7 +44,7 @@ void initGame(){
     cin >> answer;
     if(answer == "no"){
         ofstream input(".hide_splash.txt");
-        input << 1;
+        input << 1 << " " << assistEnabled;
         input.close();
         return;
     }
@@ -67,6 +82,8 @@ int calculateHand(const vector<int> &hand){
     return total;
 }
 
+#include "odds.cpp"
+
 void gameplay(long long bet, long long &balance){
     vector<int> playerHand;
     vector<int> dealerHand;
@@ -82,7 +99,7 @@ void gameplay(long long bet, long long &balance){
     }
     if(calculateHand(playerHand) == 21){
         cout << "Blackjack! You win!" << endl;
-        balance += static_cast<int>(bet * 1.5);
+        balance += static_cast<long long>(bet * 1.5 * (assistEnabled ? 0.75 : 1.0));
         return;
     }
     int card;
@@ -97,6 +114,7 @@ void gameplay(long long bet, long long &balance){
     // Player's turn
     string action;
     while(true){
+        if(assistEnabled) cout << "Suggested action: " << (shouldStand(playerHand, dealerHand[0]) ? "stand" : "hit") << endl;
         cout << "Do you want to hit or stand? (Enter 'hit' or 'stand')" << endl;
         cin >> action;
         if(action == "hit"){
@@ -135,7 +153,7 @@ void gameplay(long long bet, long long &balance){
         std::this_thread::sleep_for(std::chrono::seconds(1));
         if(calculateHand(dealerHand) > 21){
             cout << "Dealer busted! You win." << endl;
-            balance += bet;
+            balance += static_cast<long long>(bet * (assistEnabled ? 0.75 : 1.0));
             return;
         }
     }
@@ -147,7 +165,7 @@ void gameplay(long long bet, long long &balance){
     cout << "Dealer's total: " << dealerTotal << endl;
     if(playerTotal > dealerTotal){
         cout << "You win!" << endl;
-        balance += bet;
+        balance += static_cast<long long>(bet * (assistEnabled ? 0.75 : 1.0));
     }
     else if(playerTotal < dealerTotal){
         cout << "You lose!" << endl;
