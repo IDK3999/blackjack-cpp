@@ -12,6 +12,8 @@ void displayHelp(){
     cout << "n - new game" << endl;
     cout << "s - show stats" << endl;
     cout << "R - reset stats" << endl;
+    cout << "a - toggle odds assist on/off" << endl;
+    cout << "The odds give suggestions on whether to hit or not, but gives you only 3/4 of the normal payout if you win." << endl;
 }
 
 int main(){
@@ -22,6 +24,12 @@ int main(){
     int gamesPlayed;
     input >> balance >> highscore >> gamesPlayed;
     input.close();
+
+    ifstream settings(".hide_splash.txt");
+    int hide_splash = 0;
+    settings >> hide_splash >> assistEnabled;
+    settings.close();
+
     cout << "Balance: " << balance << endl;
     cout << "Highscore: " << highscore << endl;
     cout << "Games Played: " << gamesPlayed << endl;
@@ -32,11 +40,14 @@ int main(){
         if (choice == 'm') {
             displayHelp();
             continue;
-        }
-        if(choice == 's') {
+        }        if(choice == 'a') {
+            toggleAssist();
+            continue;
+        }        if(choice == 's') {
             cout << "Balance: " << balance << endl;
             cout << "Highscore: " << highscore << endl;
             cout << "Games Played: " << gamesPlayed << endl;
+            cout << "Assist: " << (assistEnabled ? "on" : "off") << endl;
             continue;
         }
         if(choice == 'R'){
