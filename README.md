@@ -8,7 +8,7 @@ This game requires the g++ compiler for C++. If you don't have it, you can insta
 
     Arch Linux / Arch-based: should be installed by default. If not, run "sudo pacman -S g++"
 
-    MacOS: brew install g++
+    MacOS / OS X: brew install g++
     
 
 To start the game, run "run.sh" in your terminal. From there, the game has its own help menu.
