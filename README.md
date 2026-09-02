@@ -1,10 +1,15 @@
 This is a basic, terminal blackjack machine for UN!X systems (Aka Linux/MacOS). Windows support won't come too soon.
 
 This game requires the g++ compiler for C++. If you don't have it, you can install it using your distro's PM:
+
     Debian / Debian-based: sudo apt install g++
+
     Red Hat / Red Hat-based: sudo rpm install g++
+
     Arch Linux / Arch-based: should be installed by default. If not, run "sudo pacman -S g++"
+
     MacOS: brew install g++
+    
 
 To start the game, run "run.sh" in your terminal. From there, the game has its own help menu.
 
